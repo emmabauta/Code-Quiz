@@ -63,6 +63,7 @@ function setQuestion(){
    newItem.setAttribute("data", questions[questionNumber].choices[i]);
    newItem.setAttribute("id", i);
    newItem.classList.add("btn");
+   newItem.classList.add('btn-primary'); 
    // Add CONTENT to NEW ELEMENT
    newItem.textContent = questions[questionNumber].choices[i];
    // Add NEW ELEMENT to DOM div
@@ -99,10 +100,15 @@ list.addEventListener('click', function(event){
             val: valueKey
         }
     );
+    questionNumber++; 
     if(questionNumber == questions.length){
+      localStorage.setItem('correctAnswers', rightAnswers); 
       checkUserSelection();
+      document.querySelector("#questions").classList.add('hide');
+      document.querySelector("#end-screen").classList.remove('hide'); 
+      document.querySelector("#final-score").innerHTML = rightAnswers; 
+      //window.location.href = "./highscores.html"; 
     }else{
-       questionNumber++; 
       setQuestion(); 
     }
    
