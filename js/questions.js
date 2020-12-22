@@ -101,13 +101,12 @@ list.addEventListener('click', function(event){
         }
     );
     questionNumber++; 
-    if(questionNumber == questions.length){
-      localStorage.setItem('correctAnswers', rightAnswers); 
+    if(questionNumber == questions.length){ 
       checkUserSelection();
       document.querySelector("#questions").classList.add('hide');
       document.querySelector("#end-screen").classList.remove('hide'); 
       document.querySelector("#final-score").innerHTML = rightAnswers; 
-      //window.location.href = "./highscores.html"; 
+      
     }else{
       setQuestion(); 
     }
@@ -115,6 +114,12 @@ list.addEventListener('click', function(event){
 }
 
 });
+
+document.querySelector("#Submit").addEventListener("click",function(){
+  localStorage.setItem('correctAnswers', rightAnswers);
+  localStorage.setItem('user',document.querySelector("#initals").value)
+  window.location.href = "./highscores.html"; 
+})
 function checkUserSelection() {
 console.log("User Array Contains:");
 console.log(userSelection);
