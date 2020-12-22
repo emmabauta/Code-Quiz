@@ -38,38 +38,57 @@ var questions = [
 // List Variable 
 var list = document.querySelector('#choices');
 //User Selection 
-var userSelection = []
+var userSelection = [];
+//Question Number
+var questionNumber = 0; 
+//Number of Right Answers
+var rightAnswers = 0; 
 //Event Listeners 
 function startQuiz(e){
   e.preventDefault();
   document.getElementById('questions').classList.remove('hide');
   document.getElementById('start').classList.add('hide');
-  
-  document.querySelector('#question-title').innerHTML = questions[0].title
+  setQuestion(); 
+}
+
+function setQuestion(){
+  document.querySelector('#question-title').innerHTML = questions[questionNumber].title
+
+  if(questionNumber == 0){
    // Loop Through our ITEMS ARRAY and ADD each ITEM to the DOM
-   for(var i = 0; i < questions[0].choices.length; i++) {
-    // Create a NEW ELEMENT LIST
-    var newItem = document.createElement('li');
+  for(var i = 0; i < questions[questionNumber].choices.length; i++) {
+   // Create a NEW ELEMENT LIST
+   var newItem = document.createElement('button');
+   // Add ATTRIBUTES and CLASSES to NEW ELEMENT
+   newItem.setAttribute("data", questions[questionNumber].choices[i]);
+   newItem.setAttribute("id", i);
+   newItem.classList.add("btn");
+   // Add CONTENT to NEW ELEMENT
+   newItem.textContent = questions[questionNumber].choices[i];
+   // Add NEW ELEMENT to DOM div
+   list.appendChild(newItem);
+}}else{
+  for(var i = 0; i < questions[questionNumber].choices.length; i++) {
+    var button = document.getElementById(i);
     // Add ATTRIBUTES and CLASSES to NEW ELEMENT
-    newItem.setAttribute("data", questions[0].choices[i]);
-    newItem.setAttribute("id", i);
-    newItem.classList.add("list-item");
+    button.setAttribute("data", questions[questionNumber].choices[i]);
     // Add CONTENT to NEW ELEMENT
-    newItem.textContent = questions[0].choices[i];
-    // Add NEW ELEMENT to DOM div
-    list.appendChild(newItem);
+    button.textContent = questions[questionNumber].choices[i];
+}
+  }
+  
 }
 list.addEventListener('click', function(event){
   event.preventDefault();
-  if (event.target.matches("li")) {
+  if (event.target.matches("button")) {
     // Let's Identify EACH LIST ITEM
     let identifier = event.target.id;
     console.log(identifier);
-​
-    // 
     let valueKey = event.target.innerHTML;
     console.log(valueKey);
-​
+    if(valueKey == questions[questionNumber].answer){
+      rightAnswers++; 
+    }
     userSelection.push( 
         {   
             // IF WE DONT PARSE the 'id' it will remain a STRING in our array!
@@ -80,16 +99,17 @@ list.addEventListener('click', function(event){
             val: valueKey
         }
     );
+    if(questionNumber == questions.length){
+      checkUserSelection();
+    }else{
+       questionNumber++; 
+      setQuestion(); 
+    }
+   
 }
-checkUserSelection();
-​
-})
-​
-​
+
+});
 function checkUserSelection() {
 console.log("User Array Contains:");
 console.log(userSelection);
 }
-
-  
-
