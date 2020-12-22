@@ -35,7 +35,10 @@ var questions = [
   ];
   //Start Button
   document.getElementById('start').addEventListener('click', startQuiz);
-
+// List Variable 
+var list = document.querySelector('#choices');
+//User Selection 
+var userSelection = []
 //Event Listeners 
 function startQuiz(e){
   e.preventDefault();
@@ -43,7 +46,6 @@ function startQuiz(e){
   document.getElementById('start').classList.add('hide');
   
   document.querySelector('#question-title').innerHTML = questions[0].title
-  var list = document.querySelector('#choices');
    // Loop Through our ITEMS ARRAY and ADD each ITEM to the DOM
    for(var i = 0; i < questions[0].choices.length; i++) {
     // Create a NEW ELEMENT LIST
@@ -57,6 +59,36 @@ function startQuiz(e){
     // Add NEW ELEMENT to DOM div
     list.appendChild(newItem);
 }
+list.addEventListener('click', function(event){
+  event.preventDefault();
+  if (event.target.matches("li")) {
+    // Let's Identify EACH LIST ITEM
+    let identifier = event.target.id;
+    console.log(identifier);
+​
+    // 
+    let valueKey = event.target.innerHTML;
+    console.log(valueKey);
+​
+    userSelection.push( 
+        {   
+            // IF WE DONT PARSE the 'id' it will remain a STRING in our array!
+            // index: identifier,
+            
+            // *** NOTE!! how we PARSE the STRING and our index is now an INTEGER!!
+            index: parseInt(identifier),
+            val: valueKey
+        }
+    );
+}
+checkUserSelection();
+​
+})
+​
+​
+function checkUserSelection() {
+console.log("User Array Contains:");
+console.log(userSelection);
 }
 
   
