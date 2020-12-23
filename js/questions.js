@@ -42,9 +42,22 @@ var userSelection = [];
 //Question Number
 var questionNumber = 0; 
 //Number of Right Answers
-var rightAnswers = 0; 
+var rightAnswers = 0;
+//Timer
+timer = 60; 
+function setTimer(){
+  document.getElementById("time").innerHTML = timer;
+  timer--; 
+  if (timer < 0){
+    alert ('Game Over')
+  }
+  else {
+    setTimeout(setTimer,1000);
+  }
+} 
 //Event Listeners 
-function startQuiz(e){
+function startQuiz(e){ 
+  setTimer();
   e.preventDefault();
   document.getElementById('questions').classList.remove('hide');
   document.getElementById('start').classList.add('hide');
@@ -89,6 +102,8 @@ list.addEventListener('click', function(event){
     console.log(valueKey);
     if(valueKey == questions[questionNumber].answer){
       rightAnswers++; 
+    }else{
+      timer = timer - 10; 
     }
     userSelection.push( 
         {   
@@ -116,9 +131,16 @@ list.addEventListener('click', function(event){
 });
 
 document.querySelector("#Submit").addEventListener("click",function(){
-  localStorage.setItem('correctAnswers', rightAnswers);
-  localStorage.setItem('user',document.querySelector("#initals").value)
-  window.location.href = "./highscores.html"; 
+  var userScores = [];
+ if(localStorage.getItem("userScores")){
+    userScores = JSON.parse(localStorage.getItem("userScores"));
+  }
+  userScores.push({
+    initials: document.querySelector("#initals").value, 
+    score: rightAnswers
+  });
+  localStorage.setItem("userScores", JSON.stringify(userScores));
+  window.location.href = "./highscores.html";
 })
 function checkUserSelection() {
 console.log("User Array Contains:");
