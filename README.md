@@ -1,4 +1,4 @@
-# Homework-Code-Quiz
+# Code-Quiz
 * [Installation](#installation)
 
 * [How To Play](#howtoplay)
